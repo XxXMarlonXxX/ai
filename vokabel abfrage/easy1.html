@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabelabfrage</title>
+    <style>
+        /* Gemeinsame Stile für alle Geräte */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 10px;
+            text-align: right;
+        }
+
+        .navbar button {
+            background-color: #ddd;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-box {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box h2 {
+            margin-top: 0;
+        }
+
+        .summary-list {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary-column {
+            flex-basis: 45%;
+        }
+
+        .summary-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-column li {
+            margin-bottom: 5px;
+        }
+
+        #tryAgainButton {
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #tryAgainButton:hover {
+            background-color: #219e54;
+        }
+
+        /* Neue Stile für verbessertes Design */
+        .word-box {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 80px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #score {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .top-bar {
+            padding: 10px 20px; /* Innenabstand oben/unten 10px, links/rechts 20px */
+            text-align: right; /* Text rechts ausrichten */
+        }
+
+            .top-bar a {
+            margin-right: 20px; /* Rechten Abstand zwischen den Links erhöhen */
+            }
+
+        }
+
+/* Stile für Mobilgeräte */
+        @media only screen and (max-width: 767px) {
+            
+            /* Stile für die Navbar-Leiste auf Mobilgeräten */
+            .top-bar {
+            background-color: #333; /* Hintergrundfarbe der oberen Leiste */
+            padding: 10px 0; /* Innenabstand oben/unten 10px, links/rechts 0 */
+            text-align: center; /* Text in der Mitte ausrichten */
+            }
+
+            .top-bar a {
+            color: #ffffff; /* Weißer Text für Links */
+            text-decoration: none; /* Keine Unterstreichung für Links */
+            margin-right: 0; /* Rechten Abstand auf 0 setzen */
+            margin-left: 10px; /* Linkabstand von links */
+            }
+            }
+
+
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="schwierigkeit.html">Zurück zur schwierigkeits Auswahl</a>
+        <a href="../wilkommen/impressum.html">Impressum</a>
+        <a href="../wilkommen/überuns.html">Über uns</a>
+        <a href="../wilkommen/Changelogs.html">Changelogs</a>
+        <a href="../wilkommen/admin-login.html">Admin Login</a>
+        <a href="../wilkommen/index.html">Home</a>
+    </div>
+    <div class="container">
+        <h2>Vokabelabfrage</h2>
+        <div class="word-box" id="wordDisplay"></div>
+        <input type="text" id="userInput" placeholder="Geben Sie das Wort ein">
+        <button onclick="checkWord()">Überprüfen</button>
+        <p id="score">Punkte: 0</p>
+    </div>
+
+    <script>
+        var words = [
+            { word: "Haus", translation: "house" },
+            { word: "Apfel", translation: "apple" },
+            { word: "Buch", translation: "book" },
+            // Weitere Vokabeln hier hinzufügen
+        ];
+
+        var totalWords = words.length;
+        var currentWordIndex = 0;
+        var score = 0;
+        var correctAnswers = [];
+        var wrongAnswers = [];
+        var wordDisplay = document.getElementById("wordDisplay");
+        var userInput = document.getElementById("userInput");
+        var scoreDisplay = document.getElementById("score");
+
+        // Funktion zum Anzeigen einer neuen Vokabel
+        function displayWord() {
+            if (currentWordIndex < totalWords) {
+                wordDisplay.textContent = words[currentWordIndex].word;
+                userInput.value = ""; // Textfeld leeren
+                userInput.focus(); // Textfeld fokussieren
+            } else {
+                showSummary();
+            }
+        }
+
+        // Funktion zum Überprüfen des eingegebenen Wortes
+        function checkWord() {
+            var userWord = userInput.value.trim().toLowerCase(); // Benutzerwort in Kleinbuchstaben umwandeln
+            var correctWord = words[currentWordIndex].translation.toLowerCase(); // Korrektes Wort in Kleinbuchstaben umwandeln
+
+            if (userWord === correctWord) {
+                alert("Richtig!");
+                score += 1; // Punktzahl erhöhen, wenn das Wort richtig ist
+                correctAnswers.push(words[currentWordIndex]);
+            } else {
+                alert("Falsch! Versuchen Sie es erneut.");
+                wrongAnswers.push(words[currentWordIndex]);
+            }
+
+            // Punktzahl aktualisieren
+            scoreDisplay.textContent = "Punkte: " + score;
+
+            // Nächste Vokabel anzeigen
+            currentWordIndex++;
+            displayWord();
+        }
+
+        // Funktion zur Anzeige der Zusammenfassung
+        function showSummary() {
+            var summary = "<div class='summary-box'>";
+            summary += "<h2>Übersicht</h2>";
+            summary += "<div class='summary-list'>";
+            summary += "<div class='summary-column'>";
+            summary += "<p>Richtig beantwortet:</p>";
+            summary += "<ul>";
+            correctAnswers.forEach(function(item) {
+                summary += "<li>" + item.word + " (" + item.translation + ")</li>";
+            });
+            summary += "</ul>";
+            summary += "</div>";
+            summary += "<div class='summary-column'>";
+            summary += "<p>Falsch beantwortet:</p>";
+            summary += "<ul>";
+            wrongAnswers.forEach(function(item) {
+                summary += "<li>" + item.word + " (" + item.translation + ")</li>";
+            });
+            summary += "</ul>";
+            summary += "</div>";
+            summary += "</div>";
+            summary += "<button id='tryAgainButton' onclick='restartQuiz()'>Try Again</button>";
+            summary += "</div>";
+
+            // Anzeige der Zusammenfassung
+            document.body.innerHTML = summary;
+        }
+
+        // Funktion zum Neustarten des Quiz
+        function restartQuiz() {
+            window.location.reload(); // Seite neu laden
+        }
+
+        // Seite initialisieren
+        displayWord();
+    </script>
+</body>
+</html>

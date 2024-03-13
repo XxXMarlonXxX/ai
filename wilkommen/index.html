@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willkommen</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="impressum.html">Impressum</a>
+        <a href="überuns.html">Über uns</a>
+        <a href="Changelogs.html">Changelogs</a>
+        <a href="admin-login.html">Admin Login</a>
+    </div>
+    <div id="notificationBar" class="notification-bar">
+        <span id="notificationText" class="notification-text"></span>
+    </div>
+    <div class="container">
+        <h2>Willkommen auf der Weiterseite</h2>
+        <p>Dies ist die Weiterseite nach dem erfolgreichen Login.</p>
+        <div id="dashboard" class="dashboard-box">
+            <p>Anzahl der Besucher: <span id="visitorCount">0</span></p>
+        </div>
+        <div id="activeVisitorsBox" class="dashboard-box">
+            <p>Aktive Besucher: <span id="activeVisitors">0</span></p>
+        </div>
+        <div id="performanceBox" class="dashboard-box">
+            <h3>Ladezeit</h3>
+            <p id="loadTime">0 ms</p>
+        </div>
+        <div id="statusBox" class="dashboard-box">
+            <h3>Seitenstatus</h3>
+            <p id="siteStatus">Online</p>
+        </div>
+    </div>
+
+    <div class="container1">
+        <h2>vokabel übung</h2>
+        <p>Hiermit kommen Sie zu den Vokabel Übungen</p>
+        <p><a href="../vokabel abfrage/schwierigkeit.html" class="weiterleitung-link">Zu der Auswahl der Schwierigkeiten</a></p>
+    </div>
+
+    <script>
+        // Funktion zum Setzen und Abrufen des Besucherzählers mithilfe von Cookies
+        function setVisitorCount(count) {
+            document.getElementById("visitorCount").textContent = count;
+            document.cookie = "visitorCount=" + count;
+        }
+
+        function getVisitorCount() {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.startsWith("visitorCount=")) {
+                    return parseInt(cookie.substring("visitorCount=".length), 10);
+                }
+            }
+            return 0;
+        }
+
+        // Funktion zum Aktualisieren der aktiven Besucher (fiktiv)
+        function updateActiveVisitors() {
+            var activeVisitors = Math.floor(Math.random() * 10); // Fiktive Aktualisierung
+            document.getElementById("activeVisitors").textContent = activeVisitors;
+        }
+
+        // Beim Laden der Seite Besucherzähler abrufen und um eins erhöhen
+        window.onload = function() {
+            var visitorCount = getVisitorCount();
+            visitorCount++;
+            setVisitorCount(visitorCount);
+
+            // Aktualisiere die Anzahl der aktiven Besucher alle 5 Sekunden (fiktiv)
+            setInterval(updateActiveVisitors, 5000);
+
+            // Ladezeit der Seite berechnen
+            var loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            document.getElementById("loadTime").textContent = loadTime + " ms";
+
+            // Seitenstatus
+            var siteStatus = localStorage.getItem("siteStatus") || "Online";
+            document.getElementById("siteStatus").textContent = siteStatus;
+
+            // Admin Nachricht abrufen und anzeigen
+            var adminMessage = localStorage.getItem("adminMessage") || "";
+            document.getElementById("adminMessage").textContent = adminMessage;
+        };
+    </script>
+</body>
+</html>
+

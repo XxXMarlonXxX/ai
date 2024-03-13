@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        body {
+            background-color: black; /* Hintergrundfarbe auf Schwarz setzen */
+            color: white; /* Textfarbe auf Weiß setzen */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="impressum.html">Impressum</a>
+        <a href="überuns.html">Über uns</a>
+        <a href="Changelogs.html">Changelogs</a>
+        <a href="admin-login.html">Admin Login</a>
+        <a href="index.html">Home</a>
+    </div>
+
+    <div class="container">
+        <h2>Admin Dashboard</h2>
+        <div id="adminControls" class="dashboard-box">
+            <h3>Seitenstatus ändern</h3>
+            <form id="statusForm">
+                <select name="status" id="statusSelect">
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                    <option value="Fehler">Fehler</option>
+                </select>
+                <button type="button" onclick="changeSiteStatus()">Ändern</button>
+            </form>
+        </div>
+        <div id="messageForm" class="dashboard-box">
+            <h3>Nachricht senden</h3>
+            <form id="messageForm">
+                <input type="text" id="messageInput" placeholder="Nachricht eingeben">
+                <input type="submit" value="Senden" onclick="sendMessage()">
+            </form>
+        </div>
+        <p><a href="index.html" class="startseite-link">Zurück zur Startseite</a></p>
+    </div>
+
+    <script>
+        function changeSiteStatus() {
+            var status = document.getElementById("statusSelect").value;
+            localStorage.setItem("siteStatus", status);
+            alert("Seitenstatus geändert zu: " + status);
+        }
+
+        function sendMessage() {
+            var message = document.getElementById("messageInput").value;
+            localStorage.setItem("adminMessage", message);
+            alert("Nachricht gesendet: " + message);
+        }
+    </script>
+</body>
+</html>
+
+

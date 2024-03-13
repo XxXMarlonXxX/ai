@@ -1,0 +1,136 @@
+/* Gemeinsame Stile für alle Geräte */
+body {
+  font-family: Arial, sans-serif;
+  background-color: rgb(94, 99, 110); /* Dunkelgrauer Hintergrund */
+  color: #ffffff; /* Weißer Text */
+  text-align: center; /* Text zentrieren */
+}
+
+.container1 {
+  width: 80%; /* Breite des Containers anpassen */
+  margin: 20px auto; /* Zentrieren und Abstand oben/unten hinzufügen */
+  padding: 20px; /* Innenabstand hinzufügen */
+  border: 2px solid #3498db; /* Rand hinzufügen */
+  border-radius: 10px; /* Abgerundete Ecken */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Schatten hinzufügen */
+}
+
+.container1:first-child {
+  margin-top: 50px; /* Zusätzlichen Abstand für den ersten Container hinzufügen */
+}
+
+.container1 h2 {
+  margin-top: 0; /* Oberen Abstand für den Titel entfernen */
+}
+
+.weiterleitung-link {
+  display: block; /* Den Link als Blockelement anzeigen, um den Klickbereich zu vergrößern */
+  text-align: center; /* Text zentrieren */
+  margin-top: 20px; /* Abstand nach unten hinzufügen */
+}
+
+.dashboard-box {
+  background-color: #3498db; /* Blauer Hintergrund */
+  color: #fff; /* Weißer Text */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Schatten */
+  margin-bottom: 20px; /* Abstand zwischen den Boxen */
+}
+
+.admin-login-link {
+  position: absolute;
+  bottom: 30px; /* Abstand zum unteren Rand */
+  left: 10px; /* Abstand zum linken Rand */ 
+}
+
+.startseite-link {
+  position: absolute;
+  bottom: 10px; /* Abstand zum unteren Rand */
+  left: 10px; /* Abstand zum linken Rand */
+}
+
+.privacy-policy-link {
+  position: absolute;
+  bottom: 30px; /* Abstand zum unteren Rand */
+  right: 10px; /* Abstand zum rechten Rand */
+}
+
+/* Stile für Desktop */
+@media only screen and (min-width: 768px) {
+
+  .container1 {
+    width: 60%; /* Breite des Containers für Desktop anpassen */
+    margin: 50px auto 20px; /* Abstand oben/unten und seitlich anpassen */
+  }
+
+  .top-bar {
+    padding: 10px 20px; /* Innenabstand oben/unten 10px, links/rechts 20px */
+    text-align: right; /* Text rechts ausrichten */
+  }
+
+  .top-bar a {
+    margin-right: 20px; /* Rechten Abstand zwischen den Links erhöhen */
+  }
+
+}
+
+/* Stile für Mobilgeräte */
+@media only screen and (max-width: 767px) {
+  .container1 {
+    width: 90%; /* Breite des Containers für Mobilgeräte anpassen */
+    margin: 20px auto; /* Abstand oben/unten und seitlich anpassen */
+  }
+
+  .admin-login-link,
+  .startseite-link {
+    position: static; /* Position auf statisch ändern, um die Positionierung auf Mobilgeräten aufzuheben */
+    display: block; /* Als Blockelement anzeigen */
+    margin-top: 20px; /* Abstand nach unten hinzufügen */
+    text-align: left; /* Text links ausrichten */
+  }
+
+  .privacy-policy-link {
+    position: static; /* Position auf statisch ändern, um die Positionierung auf Mobilgeräten aufzuheben */
+    display: block; /* Als Blockelement anzeigen */
+    margin-top: 30px; /* Abstand nach unten hinzufügen */
+    text-align: left; /* Text links ausrichten */
+  }
+
+  /* Stile für die Nachrichtenleiste */
+  .notification-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #007bff; /* Hintergrundfarbe */
+    color: #fff; /* Textfarbe */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Schatten */
+    display: none; /* Standardmäßig ausgeblendet */
+    z-index: 9999; /* Über anderen Inhalten */
+    transition: top 0.3s ease; /* Animationseffekt */
+  }
+
+  .notification-text {
+    font-size: 14px;
+  }
+
+  .notification-bar.show {
+    top: 0;
+  }
+
+  /* Stile für die Navbar-Leiste auf Mobilgeräten */
+  .top-bar {
+    background-color: #333; /* Hintergrundfarbe der oberen Leiste */
+    padding: 10px 0; /* Innenabstand oben/unten 10px, links/rechts 0 */
+    text-align: center; /* Text in der Mitte ausrichten */
+  }
+
+  .top-bar a {
+    color: #ffffff; /* Weißer Text für Links */
+    text-decoration: none; /* Keine Unterstreichung für Links */
+    margin-right: 0; /* Rechten Abstand auf 0 setzen */
+    margin-left: 10px; /* Linkabstand von links */
+  }
+}

@@ -1,0 +1,71 @@
+/* Gemeinsame Stile für alle Geräte */
+body {
+    background-color: rgb(94, 99, 110);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+/* Stile für Desktop-Geräte */
+@media only screen and (min-width: 768px) {
+    .word-box {
+        width: 400px;
+        height: 100px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 24px;
+        line-height: 100px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .option-box {
+        width: 400px;
+        height: 50px;
+        background-color: #2ecc71;
+        color: #fff;
+        font-size: 18px;
+        line-height: 50px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+}
+
+/* Stile für mobile Geräte */
+@media only screen and (max-width: 767px) {
+    .word-box {
+        width: 80%;
+        max-width: 300px;
+        height: 100px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 18px;
+        line-height: 80px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .option-box {
+        width: 80%;
+        max-width: 300px;
+        height: 40px;
+        background-color: #2ecc71;
+        color: #fff;
+        font-size: 14px;
+        line-height: 40px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+

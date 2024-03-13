@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Benutzername:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // prevent the form from submitting
+
+            // Benutzerkonten mit Benutzernamen und Passwörtern
+            var userAccounts = {
+                "1": "1",
+                "2": "2",
+                "3": "3",
+                // Weitere Benutzer hier hinzufügen
+            };
+
+            // Benutzereingaben abrufen
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Überprüfen, ob Benutzername und Passwort korrekt sind
+            if (userAccounts.hasOwnProperty(username) && userAccounts[username] === password) {
+                // Weiterleitung zur nächsten Seite
+                window.location.href = "../wilkommen/index.html";
+            } else {
+                alert("Falscher Benutzername oder Passwort!");
+            }
+        });
+    </script>
+</body>
+</html>
+

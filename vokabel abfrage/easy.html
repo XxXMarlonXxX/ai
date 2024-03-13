@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabeltrainer</title>
+    <style>
+        /* Gemeinsame Stile für alle Geräte */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .points {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .word-box {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .option-box {
+            width: calc(50% - 10px); /* 50% minus Abstand */
+            background-color: #2ecc71;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .option-box:hover {
+            background-color: #27ae60;
+        }
+
+        .summary-box {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-box h2 {
+            margin-top: 0;
+        }
+
+        .summary-list {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary-column {
+            flex-basis: 45%;
+        }
+
+        .summary-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-column li {
+            margin-bottom: 5px;
+        }
+
+        #tryAgainButton {
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #tryAgainButton:hover {
+            background-color: #219e54;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .top-bar {
+            padding: 10px 20px; /* Innenabstand oben/unten 10px, links/rechts 20px */
+            text-align: right; /* Text rechts ausrichten */
+        }
+
+            .top-bar a {
+            margin-right: 20px; /* Rechten Abstand zwischen den Links erhöhen */
+            }
+
+        }
+
+/* Stile für Mobilgeräte */
+        @media only screen and (max-width: 767px) {
+            
+            /* Stile für die Navbar-Leiste auf Mobilgeräten */
+            .top-bar {
+            background-color: #333; /* Hintergrundfarbe der oberen Leiste */
+            padding: 10px 0; /* Innenabstand oben/unten 10px, links/rechts 0 */
+            text-align: center; /* Text in der Mitte ausrichten */
+            }
+
+            .top-bar a {
+            color: #ffffff; /* Weißer Text für Links */
+            text-decoration: none; /* Keine Unterstreichung für Links */
+            margin-right: 0; /* Rechten Abstand auf 0 setzen */
+            margin-left: 10px; /* Linkabstand von links */
+            }
+            }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="schwierigkeit.html">Zurück zur schwierigkeits Auswahl</a>
+        <a href="../wilkommen/impressum.html">Impressum</a>
+        <a href="../wilkommen/überuns.html">Über uns</a>
+        <a href="../wilkommen/Changelogs.html">Changelogs</a>
+        <a href="../wilkommen/admin-login.html">Admin Login</a>
+        <a href="../wilkommen/index.html">Home</a>
+    </div>
+
+<div class="container">
+    <div class="points" id="pointsCounter"></div>
+    <div class="word-box" id="wordBox">Wort</div>
+    <div class="options" id="options"></div>
+</div>
+
+<script>
+    var germanWords = ["entspannt", "Volleyball", "Studio", "Bucht", "Nebel", "Lifestyle"];
+    var englishWords = ["relaxed", "volleyball", "studio", "bay", "fog", "lifestyle"];
+    var correctAnswers = [];
+    var wrongAnswers = [];
+    var wordsRemaining = [];
+
+    window.onload = function() {
+        wordsRemaining = germanWords.slice(); // Kopie der Vokabelliste erstellen
+
+        // Zähler für richtige Antworten
+        var correctAnswersCounter = 0;
+
+        // Funktion zum Setzen und Abrufen des Punktezählers mithilfe von Cookies
+        function setPoints(points) {
+            document.getElementById("pointsCounter").textContent = "Punkte: " + points;
+            document.cookie = "points=" + points;
+        }
+
+        function getPoints() {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.startsWith("points=")) {
+                    return parseInt(cookie.substring("points=".length), 10);
+                }
+            }
+            return 0;
+        }
+
+        // Funktion zum Überprüfen der Antwort
+        function checkAnswer(element) {
+            var selectedWord = element.textContent;
+            var germanWord = document.getElementById("wordBox").textContent;
+            var correctWord = englishWords[germanWords.indexOf(germanWord)];
+            if (selectedWord === correctWord) {
+                correctAnswersCounter++;
+                correctAnswers.push({ german: germanWord, english: selectedWord });
+                setPoints(correctAnswersCounter);
+                alert("Richtig!");
+            } else {
+                wrongAnswers.push({ german: germanWord, english: selectedWord });
+                alert("Falsch. Versuchen Sie es erneut.");
+            }
+            displayWords();
+        }
+
+        function displayWords() {
+            if (wordsRemaining.length === 0) {
+                showSummary();
+                return;
+            }
+
+            var randomIndex = Math.floor(Math.random() * wordsRemaining.length);
+            var germanWord = wordsRemaining[randomIndex];
+            var correctWord = englishWords[germanWords.indexOf(germanWord)];
+
+            document.getElementById("wordBox").textContent = germanWord;
+
+            var options = [correctWord];
+            while (options.length < 4) {
+                var randomOptionIndex = Math.floor(Math.random() * englishWords.length);
+                var randomOption = englishWords[randomOptionIndex];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+
+            options = shuffle(options);
+
+            var optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = ""; // Clear previous options
+
+            for (var i = 0; i < 4; i++) {
+                var optionBox = document.createElement("div");
+                optionBox.className = "option-box";
+                optionBox.textContent = options[i];
+                optionBox.onclick = function() {
+                    checkAnswer(this);
+                };
+                optionsContainer.appendChild(optionBox);
+            }
+
+            // Entferne das Wort aus der Liste, um sicherzustellen, dass es nur einmal vorkommt
+            wordsRemaining.splice(randomIndex, 1);
+        }
+
+        // Shuffle-Funktion (aus Gründen der Vollständigkeit)
+        function shuffle(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Funktion zur Anzeige der Zusammenfassung
+        function showSummary() {
+            var summary = "<div class='summary-box'>";
+            summary += "<h2>Übersicht</h2>";
+            summary += "<div class='summary-list'>";
+            summary += "<div class='summary-column'>";
+            summary += "<p>Richtig beantwortet:</p>";
+            summary += "<ul>";
+            correctAnswers.forEach(function(item) {
+                summary += "<li>" + item.german + " (" + item.english + ")</li>";
+            });
+            summary += "</ul>";
+            summary += "</div>";
+            summary += "<div class='summary-column'>";
+            summary += "<p>Falsch beantwortet:</p>";
+            summary += "<ul>";
+            wrongAnswers.forEach(function(item) {
+                summary += "<li>" + item.german + " (" + item.english + ")</li>";
+            });
+            summary += "</ul>";
+            summary += "</div>";
+            summary += "</div>";
+            summary += "<button id='tryAgainButton'>Try Again</button>";
+            summary += "</div>";
+
+            // Anzeige der Zusammenfassung
+            document.body.innerHTML = summary;
+
+            // Event-Listener für den "Try Again" Button hinzufügen
+            document.getElementById("tryAgainButton").addEventListener("click", restartQuiz);
+        }
+
+        // Funktion zum Neustarten des Quiz
+        function restartQuiz() {
+            window.location.reload(); // Seite neu laden
+        }
+
+        // Erste Anzeige der Wörter
+        displayWords();
+        // Anzeige der Punkte
+        setPoints(correctAnswersCounter);
+    };
+</script>
+</body>
+</html>
+
